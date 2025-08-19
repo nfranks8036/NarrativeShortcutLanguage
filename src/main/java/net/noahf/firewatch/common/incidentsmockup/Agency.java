@@ -1,4 +1,4 @@
-package net.noahf.firewatch.common.incidents;
+package net.noahf.firewatch.common.incidentsmockup;
 
 public class Agency {
 

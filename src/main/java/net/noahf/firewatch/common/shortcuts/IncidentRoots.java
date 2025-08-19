@@ -1,10 +1,9 @@
 package net.noahf.firewatch.common.shortcuts;
 
-import net.noahf.firewatch.common.incidents.Incident;
+import net.noahf.firewatch.common.incidentsmockup.Incident;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class IncidentRoots {

@@ -1,4 +1,4 @@
-package net.noahf.firewatch.common.incidents;
+package net.noahf.firewatch.common.incidentsmockup;
 
 import java.util.HashSet;
 import java.util.Set;

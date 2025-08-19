@@ -1,11 +1,8 @@
 package net.noahf.firewatch.common;
 
-import net.noahf.firewatch.common.incidents.Incident;
+import net.noahf.firewatch.common.incidentsmockup.Incident;
 import net.noahf.firewatch.common.shortcuts.IncidentRoots;
 import net.noahf.firewatch.common.shortcuts.ShortcutParser;
-
-import java.util.HashSet;
-import java.util.List;
 
 public class Main {
 
