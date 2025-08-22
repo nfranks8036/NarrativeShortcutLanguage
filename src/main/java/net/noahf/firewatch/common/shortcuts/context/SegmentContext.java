@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SegmentContext {
 
-    String apply(SegmentContainer current, List<Segment> remainingSegments) throws Exception;
+    String apply(SegmentContainer current, List<Segment> remainingSegments, Object... params) throws Exception;
 
     boolean isFinal();
 

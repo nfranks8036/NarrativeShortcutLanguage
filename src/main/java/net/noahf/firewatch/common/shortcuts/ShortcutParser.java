@@ -44,7 +44,6 @@ public class ShortcutParser {
     }
 
     public List<Segment> findSegments(String expression, IncidentRoots roots) {
-        final CustomSegments custom = new CustomSegments();
         expression = expression.trim();
 
         int ternaryStartIndex = expression.indexOf('?');
@@ -77,7 +76,7 @@ public class ShortcutParser {
         List<Segment> segments = new ArrayList<>();
         for (String part : expression.split("\\.")) {
             System.out.println(part);
-            if (part.equals(part.toUpperCase())) { // custom method, ALL UPPERCASE
+            if (segments.isEmpty() || CustomSegment.isValid(part)) { // custom method, ALL UPPERCASE
                 System.out.println("Using custom method '" + part + "'");
                 boolean foundRoot = false;
                 if (segments.isEmpty()) {
@@ -85,8 +84,8 @@ public class ShortcutParser {
                     segments.add(new RootSegment(roots, part));
                 }
 
-                if (custom.isValid(part)) {
-                    segments.add(custom.get(part));
+                if (CustomSegment.isValid(part)) {
+                    segments.add(CustomSegment.get(part));
                 } else if (!foundRoot) {
                     throw new IllegalArgumentException("Unknown custom method/expression: " + part);
                 }
@@ -124,8 +123,12 @@ public class ShortcutParser {
             if (!(value instanceof SegmentContext ctx))
                 continue;
 
-            System.out.println("Executed " + System.currentTimeMillis());
-            value = ctx.apply(new SegmentContainer(value, segment), segments.subList(i + 1, segments.size()));
+            System.out.println("Executed " + System.currentTimeMillis() + ", of " + value);
+            value = ctx.apply(
+                    new SegmentContainer(value, segment),
+                    segments.subList(i + 1, segments.size()),
+                    new ArrayList<>()
+            );
 
             if (ctx.isFinal())
                 break;

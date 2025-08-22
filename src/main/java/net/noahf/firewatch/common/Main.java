@@ -14,7 +14,7 @@ public class Main {
 
         final String template =
 //                "<INCIDENT.agencies.size == 1 ? test : <INCIDENT.agencies.size>>";
-                "<INCIDENT.agencies.size == 1>";
+                "<INCIDENT.agencies.size.EQUALS:1>";
 
         String end = parser.processTemplate(template, roots);
         System.out.println("****** END ******");

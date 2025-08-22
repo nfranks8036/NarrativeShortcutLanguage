@@ -16,7 +16,7 @@ public class ConcatContext implements SegmentContext {
     }
 
     @Override
-    public String apply(SegmentContainer segment, List<Segment> remainingSegments) throws Exception {
+    public String apply(SegmentContainer segment, List<Segment> remainingSegments, List<Object> params) throws Exception {
         List<Object> out = new ArrayList<>();
         for (Object collectionObject : this.data) {
             Object complete = collectionObject;
