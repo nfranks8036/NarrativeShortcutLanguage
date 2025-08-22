@@ -1,6 +1,6 @@
 package net.noahf.firewatch.common.shortcuts;
 
-import net.noahf.firewatch.common.shortcuts.context.SegmentContext;
+import net.noahf.firewatch.common.shortcuts.methods.SegmentMethod;
 import net.noahf.firewatch.common.shortcuts.segments.*;
 
 import java.util.*;
@@ -120,7 +120,7 @@ public class ShortcutParser {
             value = segment.apply(value);
             System.out.println("[end]segment#" + i + "::val=" + value);
 
-            if (!(value instanceof SegmentContext ctx))
+            if (!(value instanceof SegmentMethod ctx))
                 continue;
 
             System.out.println("Executed " + System.currentTimeMillis() + ", of " + value);

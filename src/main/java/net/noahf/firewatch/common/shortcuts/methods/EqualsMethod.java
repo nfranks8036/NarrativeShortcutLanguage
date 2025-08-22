@@ -1,14 +1,14 @@
-package net.noahf.firewatch.common.shortcuts.context;
+package net.noahf.firewatch.common.shortcuts.methods;
 
 import net.noahf.firewatch.common.shortcuts.SegmentContainer;
 import net.noahf.firewatch.common.shortcuts.segments.Segment;
 
 import java.util.List;
 
-public class EqualsContext implements SegmentContext {
+public class EqualsMethod implements SegmentMethod {
 
     @Override
-    public String apply(SegmentContainer current, List<Segment> remainingSegments, List<Object> params) throws Exception {
+    public String apply(SegmentContainer current, List<Segment> remainingSegments, Object... params) throws Exception {
         System.out.println("{{{EQUALS}}}: " + current.object().toString());
         Object first = current.object();
         Object second = this.convertIntoType(remainingSegments.getLast().apply(first));

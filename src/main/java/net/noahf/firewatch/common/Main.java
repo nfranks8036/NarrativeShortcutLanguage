@@ -4,6 +4,8 @@ import net.noahf.firewatch.common.incidentsmockup.Incident;
 import net.noahf.firewatch.common.shortcuts.IncidentRoots;
 import net.noahf.firewatch.common.shortcuts.ShortcutParser;
 
+import java.util.HashSet;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -14,7 +16,7 @@ public class Main {
 
         final String template =
 //                "<INCIDENT.agencies.size == 1 ? test : <INCIDENT.agencies.size>>";
-                "<INCIDENT.agencies.size.EQUALS:1>";
+                "<INCIDENT.agencies.CONCAT>";
 
         String end = parser.processTemplate(template, roots);
         System.out.println("****** END ******");

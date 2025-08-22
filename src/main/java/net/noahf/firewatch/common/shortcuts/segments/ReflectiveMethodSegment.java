@@ -2,6 +2,8 @@ package net.noahf.firewatch.common.shortcuts.segments;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.stream.Stream;
 
 public class ReflectiveMethodSegment implements Segment {
 
@@ -45,9 +47,24 @@ public class ReflectiveMethodSegment implements Segment {
         }
 
         System.out.println("Finding method in " + current.getClass().getCanonicalName() + ": " + this.name + "(" + Arrays.stream(classes).map(Class::getCanonicalName).toArray().toString() + ")");
-        Method method = current.getClass().getDeclaredMethod(this.name, classes);
-        method.setAccessible(true);
-        return method.invoke(current, this.params);
+        Object value = this.tryMethod(current, current.getClass(), this.name, classes);
+        return value instanceof EmptyResponse ? null : value;
+    }
+
+    private Object tryMethod(Object object, Class<?> clazz, String methodName, Class<?>... params) {
+        try {
+            Method method = clazz.getDeclaredMethod(methodName, params);
+            method.setAccessible(true);
+            return method.invoke(object, this.params);
+        } catch (Exception exception) {
+            System.err.println("From: " + clazz.getCanonicalName());
+            exception.printStackTrace(System.err);
+            return new EmptyResponse();
+        }
+    }
+
+    private static class EmptyResponse {
+
     }
 
 }

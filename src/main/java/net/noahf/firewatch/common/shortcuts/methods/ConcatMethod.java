@@ -1,22 +1,21 @@
-package net.noahf.firewatch.common.shortcuts.context;
+package net.noahf.firewatch.common.shortcuts.methods;
 
 import net.noahf.firewatch.common.shortcuts.SegmentContainer;
 import net.noahf.firewatch.common.shortcuts.segments.Segment;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class ConcatContext implements SegmentContext {
+public class ConcatMethod implements SegmentMethod {
 
     private final List<?> data;
 
-    public ConcatContext(List<?> data) {
+    public ConcatMethod(List<?> data) {
         this.data = data;
     }
 
     @Override
-    public String apply(SegmentContainer segment, List<Segment> remainingSegments, List<Object> params) throws Exception {
+    public String apply(SegmentContainer segment, List<Segment> remainingSegments, Object... params) throws Exception {
         List<Object> out = new ArrayList<>();
         for (Object collectionObject : this.data) {
             Object complete = collectionObject;
