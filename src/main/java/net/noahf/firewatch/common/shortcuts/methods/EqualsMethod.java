@@ -5,7 +5,11 @@ import net.noahf.firewatch.common.shortcuts.segments.Segment;
 
 import java.util.List;
 
-public class EqualsMethod implements SegmentMethod {
+public class EqualsMethod extends SegmentMethod {
+
+    public EqualsMethod() {
+        super("EQUALS", true);
+    }
 
     @Override
     public String apply(SegmentContainer current, List<Segment> remainingSegments, Object... params) throws Exception {
@@ -14,11 +18,6 @@ public class EqualsMethod implements SegmentMethod {
         Object second = this.convertIntoType(remainingSegments.getLast().apply(first));
         System.out.println("comparing " + first.toString() + " == " + second.toString());
         return String.valueOf(first.equals(second));
-    }
-
-    @Override
-    public boolean isFinal() {
-        return true;
     }
 
     private Object convertIntoType(Object object) {
@@ -37,4 +36,8 @@ public class EqualsMethod implements SegmentMethod {
         return object;
     }
 
+    @Override
+    public Object apply(Object current) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 }

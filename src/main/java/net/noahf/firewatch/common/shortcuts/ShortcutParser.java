@@ -1,5 +1,7 @@
 package net.noahf.firewatch.common.shortcuts;
 
+import net.noahf.firewatch.common.shortcuts.methods.ConcatMethod;
+import net.noahf.firewatch.common.shortcuts.methods.EqualsMethod;
 import net.noahf.firewatch.common.shortcuts.methods.SegmentMethod;
 import net.noahf.firewatch.common.shortcuts.segments.*;
 
@@ -11,10 +13,18 @@ public class ShortcutParser {
 
     static Pattern TAG = Pattern.compile("<(.*)>");
 
+    private final List<SegmentMethod> methods;
+
     private final Map<String, List<Segment>> segments;
 
     public ShortcutParser() {
+        this.methods = new ArrayList<>();
         this.segments = new HashMap<>();
+
+        this.methods.addAll(List.of(
+                new ConcatMethod(),
+                new EqualsMethod()
+        ));
     }
 
     public String processTemplate(String template, IncidentRoots roots) {
@@ -76,21 +86,22 @@ public class ShortcutParser {
         List<Segment> segments = new ArrayList<>();
         for (String part : expression.split("\\.")) {
             System.out.println(part);
-            if (segments.isEmpty() || CustomSegment.isValid(part)) { // custom method, ALL UPPERCASE
+            if (segments.isEmpty() || part.equals(part.toUpperCase())) { // custom method, ALL UPPERCASE
                 System.out.println("Using custom method '" + part + "'");
-                boolean foundRoot = false;
                 if (segments.isEmpty()) {
-                    foundRoot = true;
                     segments.add(new RootSegment(roots, part));
+                    continue;
                 }
 
-                if (CustomSegment.isValid(part)) {
-                    segments.add(CustomSegment.get(part));
-                } else if (!foundRoot) {
-                    throw new IllegalArgumentException("Unknown custom method/expression: " + part);
+                SegmentMethod method = this.methods.stream()
+                        .filter(sm -> sm.name().equalsIgnoreCase(SegmentMethod.findName(part)))
+                        .findFirst().orElse(null);
+                if (method != null) {
+                    segments.add(method);
+                    continue;
                 }
 
-                continue;
+                throw new IllegalArgumentException("Unknown custom method/expression: " + part);
             }
 
             String[] possibleParams = part.split(":");

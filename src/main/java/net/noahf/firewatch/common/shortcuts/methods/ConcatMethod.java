@@ -6,12 +6,10 @@ import net.noahf.firewatch.common.shortcuts.segments.Segment;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ConcatMethod implements SegmentMethod {
+public class ConcatMethod extends SegmentMethod {
 
-    private final List<?> data;
-
-    public ConcatMethod(List<?> data) {
-        this.data = data;
+    public ConcatMethod() {
+        super("CONCAT", true);
     }
 
     @Override
@@ -29,8 +27,14 @@ public class ConcatMethod implements SegmentMethod {
     }
 
     @Override
-    public boolean isFinal() {
-        return true;
-    }
+    public Object apply(Object current) throws Exception {
+        List<?> objects;
+        if (current instanceof Collection<?> collection) {
+            objects = new ArrayList<>(collection);
+        } else {
+            objects = new ArrayList<>(List.of(current));
+        }
 
+        return objects;
+    }
 }
